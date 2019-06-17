@@ -1,3 +1,5 @@
+'use strict';
+
 var columnX = 155;
 var columnY = 80;
 var columnWidth = 40;
@@ -19,27 +21,24 @@ function getMaxValue(t) {
   return maxValue;
 }
 
-window.renderStatistics = function (ctx, names, times) {
-  function drawCloud(startX, startY, step, colorCloud) {
-    // startX - начальное значение для x
-    // startY - начальное значение для y
-    // step - отступ для тени
-    // colorCloud - цвет заливки
+function drawCloud(ctx, startX, startY, step, colorCloud) {
+  // startX - начальное значение для x
+  // startY - начальное значение для y
+  // step - отступ для тени
+  // colorCloud - цвет заливки
 
-    ctx.fillStyle = colorCloud;
-    ctx.beginPath();
-    ctx.moveTo(startX + step, startY + step);
-    for (var i = 0; i < 6; i++) {
-      ctx.lineTo(cloudСoordinatesX[i] + step, cloudСoordinatesY[i] + step);
-    }
-    ctx.stroke();
-    ctx.fill();
+  ctx.fillStyle = colorCloud;
+  ctx.beginPath();
+  ctx.moveTo(startX + step, startY + step);
+  for (var i = 0; i < 6; i++) {
+    ctx.lineTo(cloudСoordinatesX[i] + step, cloudСoordinatesY[i] + step);
   }
+  ctx.stroke();
+  ctx.fill();
+}
 
-  drawCloud(100, 10, 10, 'rgba(0, 0, 0, 0.7)'); // Рисуем тень
 
-  drawCloud(100, 10, 0, '#ffffff'); // Рисуем облако
-
+window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = '#000000';
   ctx.font = '16px PT Mono';
   ctx.textBaseline = 'hanging';
@@ -60,4 +59,8 @@ window.renderStatistics = function (ctx, names, times) {
 
     ctx.fillRect(columnX + (columnWidth + columnGap) * i, columnY + columnHeight - columnHeight * times[i] / maxTime, columnWidth, (columnHeight * times[i]) / maxTime);
   }
+
+  drawCloud(ctx, 100, 10, 10, 'rgba(0, 0, 0, 0.7)'); // Рисуем тень
+
+  drawCloud(ctx, 100, 10, 0, '#ffffff'); // Рисуем облако
 };
