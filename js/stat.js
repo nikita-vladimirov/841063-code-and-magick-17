@@ -37,13 +37,59 @@ function drawCloud(ctx, startX, startY, step, colorCloud) {
   ctx.fill();
 }
 
+function getColorShade(colorRed, colorGreen, colorBlue) {
+  var colorShade = 'rgba' + '(' +
+                   colorRed + ', ' +
+                   colorGreen + ', ' +
+                   colorBlue + ', ' +
+                   Math.random().toFixed(1) + ')';
+  return colorShade;
+}
+
+function splitLine(winText) {
+  return winText.split('\n');
+}
+
+function drawWinText(ctx, winText, lineX, lineY) {
+  var structuredWinText = splitLine(winText);
+  for (var i = 0; i < structuredWinText.length; i++) {
+    ctx.fillText(structuredWinText[i], lineX, lineY * (i + 1));
+  }
+}
+
+function getRectParameters(i, maxTime, times) {
+  // Вычисление координаты x
+  var rectX = columnX + (columnWidth + columnGap) * i;
+
+  // Вычисление координаты y
+  var rectY = columnY + columnHeight - columnHeight * times[i] / maxTime;
+
+  // Ширина столбца
+  var rectWidth = columnWidth;
+
+  // Вычисление высоты столбца
+  var rectHeight = (columnHeight * times[i]) / maxTime;
+
+  return {
+    rectX: rectX,
+    rectY: rectY,
+    rectWidth: rectWidth,
+    rectHeight: rectHeight
+  };
+}
+
+function drawRect(ctx, rectParameters) {
+  return ctx.fillRect(rectParameters.rectX, rectParameters.rectY, rectParameters.rectWidth, rectParameters.rectHeight);
+}
 
 window.renderStatistics = function (ctx, names, times) {
+  drawCloud(ctx, 100, 10, 10, 'rgba(0, 0, 0, 0.7)'); // Рисуем тень
+  drawCloud(ctx, 100, 10, 0, '#ffffff'); // Рисуем облако
+
   ctx.fillStyle = '#000000';
   ctx.font = '16px PT Mono';
   ctx.textBaseline = 'hanging';
-  ctx.fillText('Ура вы победили!', 150, 20);
-  ctx.fillText('Список результатов:', 150, 40);
+  drawWinText(ctx, 'Ура вы победили!\nСписок результатов:', 150, 20);
 
   var maxTime = getMaxValue(times);
 
@@ -54,13 +100,10 @@ window.renderStatistics = function (ctx, names, times) {
     if (names[i] === 'Вы') {
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
     } else {
-      ctx.fillStyle = 'rgba(0, 0, 255,' + Math.random().toFixed(1) + ')';
+      ctx.fillStyle = getColorShade(0, 0, 255);
     }
 
-    ctx.fillRect(columnX + (columnWidth + columnGap) * i, columnY + columnHeight - columnHeight * times[i] / maxTime, columnWidth, (columnHeight * times[i]) / maxTime);
+    var rectParameters = getRectParameters(i, maxTime, times);
+    drawRect(ctx, rectParameters);
   }
-
-  drawCloud(ctx, 100, 10, 10, 'rgba(0, 0, 0, 0.7)'); // Рисуем тень
-
-  drawCloud(ctx, 100, 10, 0, '#ffffff'); // Рисуем облако
 };
