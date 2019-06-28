@@ -33,7 +33,6 @@ var setupWindow = document.querySelector('.setup');
 var buttonOpenSetup = document.querySelector('.setup-open');
 var buttonCloseSetup = document.querySelector('.setup-close');
 var buttonSubmit = document.querySelector('.setup-submit');
-var inputWizzardName = document.querySelector('.setup-user-name');
 
 var toggleSetupWindow = function (button) {
   button.addEventListener('click', function () {
@@ -42,7 +41,6 @@ var toggleSetupWindow = function (button) {
 };
 
 document.addEventListener('keydown', function (evt) {
-  console.log(document.activeElement.className);
   if (document.activeElement.className === 'setup-open-icon' && evt.keyCode === 13) {
     setupWindow.classList.remove('hidden');
   } else if (evt.keyCode === 27 && document.activeElement.className !== 'setup-user-name') {
