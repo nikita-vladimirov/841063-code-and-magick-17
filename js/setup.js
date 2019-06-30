@@ -72,4 +72,12 @@ function inputClickHeandler(elementList, elementName, inputName) {
 
 inputClickHeandler(coatColorList, wizardCoat, 'coat');
 inputClickHeandler(eyesColorList, wizardEyes, 'eyes');
-inputClickHeandler(fireBallColorList, fireBall, 'fireball');
+
+function changeBackgroundColor() {
+  fireBall.addEventListener('click', function () {
+    var elementColor = fireBallColorList[getRandomValue(0, fireBallColorList.length - 1)];
+    fireBall.style.backgroundColor = elementColor;
+    document.querySelector('input[name="fireball-color"]').value = elementColor;
+  });
+}
+changeBackgroundColor();

@@ -19,7 +19,7 @@ document.addEventListener('keydown', function (evt) {
     setupWindow.classList.add('hidden');
   } else if (evt.keyCode === 13 && activeElementClass === 'setup-close') {
     setupWindow.classList.add('hidden');
-  } else if (evt.keyCode === 13) {
+  } else if (evt.keyCode === 13 && activeElementClass === 'setup-submit') {
     buttonSubmit.click();
   }
 });
